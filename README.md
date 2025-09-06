@@ -2,7 +2,7 @@
 
 Un **script en Python** para renombrar automáticamente imágenes de WhatsApp en un directorio, con nombres uniformes como `image-1.jpg`, `image-2.png`, etc. Perfecto para organizar tus fotos de manera profesional.
 
-![WhatsApp Images](docs/preview.png)
+![WhatsApp Images](img/preview.png)
 
 ---
 
