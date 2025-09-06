@@ -28,7 +28,7 @@ Un **script en Python** para renombrar automáticamente imágenes de WhatsApp en
 1. Clonar el repositorio:
 
 ```bash
-git clone https://github.com/NicoButter/whatsapp-image-renamer.git
+git clone https://github.com/NicoButter/filerenamer.git
 cd whatsapp-image-renamer
 ```
 
