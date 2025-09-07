@@ -11,21 +11,43 @@ if not os.path.isdir(directorio):
     print("❌ El path ingresado no existe.")
     exit(1)
 
+# Pedir el número de inicio para la secuencia
+try:
+    inicio = input("Ingresa el número de inicio para la secuencia (Enter para empezar desde 1): ").strip()
+    inicio = int(inicio) if inicio else 1
+except ValueError:
+    print("❌ Entrada inválida. Se usará 1 como inicio.")
+    inicio = 1
+
 # Expresión regular para detectar archivos que empiezan con "WhatsApp Image"
 patron = re.compile(r'^WhatsApp Image.*\.(jpg|jpeg|png|gif)$', re.IGNORECASE)
 
 # Listar y filtrar archivos
 archivos = [f for f in os.listdir(directorio) if patron.match(f)]
-archivos.sort()
+archivos.sort()  # Ordenar alfabéticamente para consistencia
+
+if not archivos:
+    print("⚠️  No se encontraron archivos que coincidan con el patrón 'WhatsApp Image'.")
+    exit(0)
 
 # Renombrar
-for i, archivo in enumerate(archivos, start=1):
-    extension = os.path.splitext(archivo)[1]
-    nuevo_nombre = f"image-{i}{extension}"
+print(f"\nRenombrando {len(archivos)} archivos, comenzando desde {inicio}...\n")
+
+for i, archivo in enumerate(archivos, start=inicio):
+    nombre, extension = os.path.splitext(archivo)
+    nuevo_nombre = f"image-{i}{extension.lower()}"  # Normalizar extensión a minúsculas
     ruta_vieja = os.path.join(directorio, archivo)
     ruta_nueva = os.path.join(directorio, nuevo_nombre)
     
-    print(f'Renombrando: {ruta_vieja} -> {ruta_nueva}')
-    os.rename(ruta_vieja, ruta_nueva)
+    # Evitar sobrescribir si ya existe un archivo con el nuevo nombre
+    if os.path.exists(ruta_nueva):
+        print(f"⚠️  {ruta_nueva} ya existe. Saltando {archivo}.")
+        continue
+    
+    try:
+        print(f'✅ Renombrando: {archivo} -> {nuevo_nombre}')
+        os.rename(ruta_vieja, ruta_nueva)
+    except OSError as e:
+        print(f"❌ Error al renombrar {archivo}: {e}")
 
-print("Renombrado completado ✅")
+print("\n✨ Renombrado completado.")
